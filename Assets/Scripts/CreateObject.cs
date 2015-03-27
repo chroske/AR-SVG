@@ -2,15 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using MiniJSON;
+using Common;
 
 public class CreateObject : MonoBehaviour {
-
-	//経度
-	decimal OneMeterlongitude = 0.000010966382364m;
-	//緯度
-	decimal OneMeterlatitude = 0.000008983148616m;
-		
 	public GameObject cube;
 
 
@@ -81,6 +75,11 @@ public class CreateObject : MonoBehaviour {
 			arObjData.Add(4, "ArObject3b");
 			arObjData.Add(5, "ArObject5b");
 
+
+			//自分の座標との相対位置位置計算
+			decimal longitude =   (data["longitude"] - (decimal)Input.location.lastData.longitude) / Define.ONE_METER_LONGITUDE;
+			decimal latitude = (data["latitude"] - (decimal)Input.location.lastData.latitude) / Define.ONE_METER_LATITUDO;
+
 			Debug.Log ("id="+arObjData[(int)data["id"]]);
 			cube = Instantiate(Resources.Load(arObjData[(int)data["id"]])) as GameObject;
 
@@ -88,15 +87,8 @@ public class CreateObject : MonoBehaviour {
 			GameObject compass = GameObject.Find("Compass");
 			cube.transform.parent = compass.transform;
 
-
-			//自分の座標との相対位置位置計算
-			decimal longitude =   (data["longitude"] - (decimal)Input.location.lastData.longitude) / OneMeterlongitude;
-			decimal latitude = (data["latitude"] - (decimal)Input.location.lastData.latitude) / OneMeterlatitude;
-
-			int regulateVal = 25;
-
-			int intLongitude = (int)Math.Floor (longitude / regulateVal);
-			int intLatitude = (int)Math.Floor (latitude / regulateVal);
+			int intLongitude = (int)Math.Floor (longitude / Define.REGULATE_VAL);
+			int intLatitude = (int)Math.Floor (latitude / Define.REGULATE_VAL);
 
 			Debug.Log ("intLongitude="+intLongitude); 
 			Debug.Log ("intLatitude="+intLatitude); 
@@ -107,9 +99,10 @@ public class CreateObject : MonoBehaviour {
 			maol.objectLongitude = data["longitude"];
 			maol.objectLatitude = data["latitude"];
 
-
 		}
 	}
+
+
 
 
 	// 端末の位置情報が有効か調べる。 

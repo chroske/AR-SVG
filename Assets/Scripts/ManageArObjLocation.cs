@@ -1,14 +1,9 @@
 ﻿using UnityEngine;
 using System;
+using Common;
 
 
 public class ManageArObjLocation : MonoBehaviour {
-
-	//経度
-	decimal OneMeterlongitude = 0.000010966382364m;
-	//緯度
-	decimal OneMeterlatitude = 0.000008983148616m;
-
 	public decimal objectLongitude;
 	public decimal objectLatitude;
 
@@ -29,20 +24,30 @@ public class ManageArObjLocation : MonoBehaviour {
 		else 
 		{
 			//現在位置を取得して相対位置を修正
-			longitude =   ((objectLongitude - (decimal)Input.location.lastData.longitude) / OneMeterlongitude);
-			latitude = (objectLatitude - (decimal)Input.location.lastData.latitude) / OneMeterlatitude;
+			longitude =   ((objectLongitude - (decimal)Input.location.lastData.longitude) / Define.ONE_METER_LONGITUDE);
+			latitude = (objectLatitude - (decimal)Input.location.lastData.latitude) / Define.ONE_METER_LATITUDO;
 
-			//子オブジェクトのメソッド実行
-			GameObject distanceText = gameObject.transform.FindChild("CanvasWorldSpace/distanceText").gameObject;
-			PrintObjectDistance pd = distanceText.GetComponent<PrintObjectDistance> ();
-			pd.ChangeObjectDistance(longitude,latitude);
+			//オブジェクトの距離が1キロ上離れてたら描画しない
+			if (calculateDistance (longitude, latitude) < Define.LIMIT_DISTANCE) {
+				//子オブジェクトのメソッド実行
+				GameObject distanceText = gameObject.transform.FindChild ("CanvasWorldSpace/distanceText").gameObject;
+				PrintObjectDistance pd = distanceText.GetComponent<PrintObjectDistance> ();
+				pd.ChangeObjectDistance (longitude, latitude);
 
-			int regulateVal = 25;
+				int intLongitude = (int)Math.Floor (longitude / Define.REGULATE_VAL);
+				int intLatitude = (int)Math.Floor (latitude / Define.REGULATE_VAL);
 
-			int intLongitude = (int)Math.Floor (longitude / regulateVal);
-			int intLatitude = (int)Math.Floor (latitude / regulateVal);
+				transform.localPosition = new Vector3 (intLongitude, 0, intLatitude);
+			} else {
+				//オブジェクト削除
 
-			transform.localPosition = new Vector3(intLongitude, 0, intLatitude);
+			}
 		}
+	}
+
+	private int calculateDistance(decimal longitude,decimal latitude)
+	{
+		double Distance = Math.Sqrt (Math.Pow ((float)longitude, 2) + Math.Pow ((float)latitude, 2));
+		return (int)Math.Floor(Distance);
 	}
 }

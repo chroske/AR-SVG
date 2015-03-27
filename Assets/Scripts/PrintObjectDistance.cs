@@ -15,11 +15,12 @@ public class PrintObjectDistance : MonoBehaviour {
 	}
 
 	public void ChangeObjectDistance (decimal longitude,decimal latitude) {
-		double test = Math.Pow ((float)longitude, 2) + Math.Pow ((float)latitude, 2);
-		double Distance = Math.Sqrt (test);
+		double Distance = Math.Sqrt (Math.Pow ((float)longitude, 2) + Math.Pow ((float)latitude, 2));
+		//double Distance = Math.Sqrt (test);
 
 		Text myText = GetComponent<Text> ();
 		int printText = (int)Math.Floor(Distance);
+
 		myText.text = printText.ToString();
 	}
 }

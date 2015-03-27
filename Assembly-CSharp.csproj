@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\BackGroundResize.cs" />
      <Compile Include="Assets\Scripts\CheckDeviceOrientation.cs" />
      <Compile Include="Assets\Scripts\ComRotate.cs" />
+     <Compile Include="Assets\Scripts\Common.cs" />
      <Compile Include="Assets\Scripts\CreateObject.cs" />
      <Compile Include="Assets\Scripts\LookAtCamera.cs" />
      <Compile Include="Assets\Scripts\ManageArObjLocation.cs" />
