@@ -63,22 +63,6 @@ void _startCamera() {
     [glContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:glLayer];
 }
 
-void _touchObject() {
-	UIWindow *win = [[UIApplication sharedApplication] keyWindow];
-	NSArray *layers = win.layer.sublayers;
-    CAEAGLLayer *glLayer=nil;
-    for(int i=0;i<[layers count];i++){
-        CALayer *layer = [layers objectAtIndex:i];
-        if([layer isKindOfClass:[CAEAGLLayer class]]){
-            glLayer = (CAEAGLLayer *)layer;
-        }
-    }
-
-    //ここで透過フラグとかのログを出す
-    NSLog(@"qpaque=%hhd",glLayer.opaque);
-    glLayer.opaque = NO;
-}
-
 void _checkQpaque() {
     UIWindow *win = [[UIApplication sharedApplication] keyWindow];
     NSArray *layers = win.layer.sublayers;
@@ -90,7 +74,22 @@ void _checkQpaque() {
         }
     }
     
-    //ここで透過フラグとかのログを出す
-    NSLog(@"qpaque=%hhd",glLayer.opaque);
+    //何故か端末の画面回転でglLayer.opaqueがYESに切り替わってしまい暗転するため、ここで無理やりNOにする
     glLayer.opaque = NO;
 }
+
+//テスト用
+void _touchObject() {
+	UIWindow *win = [[UIApplication sharedApplication] keyWindow];
+	NSArray *layers = win.layer.sublayers;
+    CAEAGLLayer *glLayer=nil;
+    for(int i=0;i<[layers count];i++){
+        CALayer *layer = [layers objectAtIndex:i];
+        if([layer isKindOfClass:[CAEAGLLayer class]]){
+            glLayer = (CAEAGLLayer *)layer;
+        }
+    }
+
+    glLayer.opaque = NO;
+}
+
