@@ -24,7 +24,6 @@ void _startCamera() {
     [captureSession addInput:input];
 
     UIWindow *win = [[UIApplication sharedApplication] keyWindow];
-    //UIWindow *win = [[UIApplication sharedApplication].windows objectAtIndex:0];
 
     AVCaptureVideoPreviewLayer * previewLayer;
     previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
@@ -70,7 +69,8 @@ void _touchObject() {
         }
     }
 
-	NSLog(@"qpaque=%hhd",glLayer.opaque);//ここで透過フラグとかのログを出す
+    //ここで透過フラグとかのログを出す
+    NSLog(@"qpaque=%hhd",glLayer.opaque);
     glLayer.opaque = NO;
 }
 
@@ -85,6 +85,7 @@ void _checkQpaque() {
         }
     }
     
-    NSLog(@"qpaque=%hhd",glLayer.opaque);//ここで透過フラグとかのログを出す
+    //ここで透過フラグとかのログを出す
+    NSLog(@"qpaque=%hhd",glLayer.opaque);
     glLayer.opaque = NO;
 }
