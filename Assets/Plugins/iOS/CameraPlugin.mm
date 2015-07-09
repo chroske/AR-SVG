@@ -13,6 +13,7 @@ extern "C" {
     void _checkQpaque();
 }
 void _startCamera() {
+    //セッション作成
     AVCaptureSession * captureSession = [[AVCaptureSession alloc]init];
     captureSession.sessionPreset = AVCaptureSessionPresetHigh;
 
@@ -25,12 +26,16 @@ void _startCamera() {
 
     UIWindow *win = [[UIApplication sharedApplication] keyWindow];
 
+    //カメラ映像を表示するCALayer設定
     AVCaptureVideoPreviewLayer * previewLayer;
     previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     previewLayer.frame = win.bounds;
 
+    //カメラ映像を表示するCALayerを最背面に
     [win.layer insertSublayer:previewLayer atIndex:0];
+
+    //カメラセッションスタート
     [captureSession startRunning];
 	
     //EAGLLayerを透過
